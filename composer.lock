@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "92349cb28edd03fc664907cf9290705c",
+    "content-hash": "006cdba3fe31b29383308f591688bb83",
     "packages": [
         {
             "name": "brick/math",
@@ -1724,6 +1724,60 @@
                 "source": "https://github.com/laravel/framework"
             },
             "time": "2023-04-11T08:12:43+00:00"
+        },
+        {
+            "name": "illuminate/redis",
+            "version": "v10.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminate/redis.git",
+                "reference": "bff4b8e9ae4f52a04a31d2ef4ff596e3d42647e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/illuminate/redis/zipball/bff4b8e9ae4f52a04a31d2ef4ff596e3d42647e4",
+                "reference": "bff4b8e9ae4f52a04a31d2ef4ff596e3d42647e4",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/collections": "^10.0",
+                "illuminate/contracts": "^10.0",
+                "illuminate/macroable": "^10.0",
+                "illuminate/support": "^10.0",
+                "php": "^8.1"
+            },
+            "suggest": {
+                "ext-redis": "Required to use the phpredis connector (^4.0|^5.0).",
+                "predis/predis": "Required to use the predis connector (^2.0.2)."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "10.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Illuminate\\Redis\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "The Illuminate Redis package.",
+            "homepage": "https://laravel.com",
+            "support": {
+                "issues": "https://github.com/laravel/framework/issues",
+                "source": "https://github.com/laravel/framework"
+            },
+            "time": "2023-04-05T15:07:28+00:00"
         },
         {
             "name": "illuminate/session",
@@ -4841,6 +4895,58 @@
                 }
             ],
             "time": "2023-03-29T21:42:15+00:00"
+        },
+        {
+            "name": "vkoori/identifier-queue",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vkoori/identifier-queue.git",
+                "reference": "6cb919832c5837babe9fb513c05d26921978500a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vkoori/identifier-queue/zipball/6cb919832c5837babe9fb513c05d26921978500a",
+                "reference": "6cb919832c5837babe9fb513c05d26921978500a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "laravel/lumen-framework": "^9.0|^10.0",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.9.1",
+                "mockery/mockery": "^1.4.4",
+                "phpunit/phpunit": "^9.5.10"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Kooriv\\Queue\\Providers\\QueueServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Kooriv\\Queue\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "This package is created for dispatching queues that have a identifier field for searching.",
+            "keywords": [
+                "lumen",
+                "queue"
+            ],
+            "support": {
+                "issues": "https://github.com/vkoori/identifier-queue/issues",
+                "source": "https://github.com/vkoori/identifier-queue/tree/1.0.0"
+            },
+            "time": "2023-04-15T22:44:38+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
