@@ -55,3 +55,11 @@ To avoid heavy reading from `delay_reports` table, we partition its data monthly
 we can change partitioning according to [this link](https://dev.mysql.com/doc/refman/8.0/en/partitioning-limitations-functions.html)
 
 To make sure that the next month's partitioning is done, we run the `partition:delay_reports` command every day.
+
+### Queue
+
+Any fifo queue drive can be used
+
+### Broadcast
+
+After sending the delay report by the user, we immediately send `http response` and also create a `socket.io` connection, until in case of a delay in response or unavailability of other services, they will not cause any problems in the user's experience.
