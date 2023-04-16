@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TestEnum;
+
 class ExampleController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function version()
     {
-        //
+        return $this->response->ok(
+            message: __('ok'),
+            data: [
+                'version' => app()->version(),
+                'enum' => TestEnum::casesWithTranslate()
+            ]);
     }
-
-    //
 }
