@@ -13,6 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(
+            abstract: \App\Utils\Responses\Constraint\JsonResponse::class,
+            concrete: \App\Utils\Responses\Json\Response::class
+        );
     }
 }

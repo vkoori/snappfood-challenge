@@ -2,9 +2,12 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
+$env_file = '.env.' . env('APP_ENV');
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
-    dirname(__DIR__)
+    dirname(__DIR__),
+    file_exists(dirname(__DIR__) . '/' . $env_file) ? $env_file : null
 ))->bootstrap();
+
 
 date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 
@@ -25,7 +28,7 @@ $app = new Laravel\Lumen\Application(
 
 // $app->withFacades();
 
-// $app->withEloquent();
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -72,13 +75,13 @@ $app->configure('app');
 |
 */
 
-// $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+    \Nord\Lumen\Cors\CorsMiddleware::class,
+]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+$app->routeMiddleware([
+    'throttle'      => \App\Http\Middleware\ThrottleRequests::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -91,10 +94,12 @@ $app->configure('app');
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
 $app->register(\Kooriv\Queue\Providers\QueueServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\QueryProvider::class);
+// $app->register(App\Providers\EventServiceProvider::class);
+$app->register(\Nord\Lumen\Cors\CorsServiceProvider::class);
+$app->register(\Illuminate\Redis\RedisServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -107,10 +112,6 @@ $app->register(\Kooriv\Queue\Providers\QueueServiceProvider::class);
 |
 */
 
-$app->router->group([
-    'namespace' => 'App\Http\Controllers',
-], function ($router) {
-    require __DIR__.'/../routes/web.php';
-});
+$app->register(App\Providers\RouteServiceProvider::class);
 
 return $app;
