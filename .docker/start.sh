@@ -5,7 +5,7 @@ workdir=${WORKDIR}
 
 if [ "$role" = "app" ]; then
 
-    echo "Caching configuration..."
+    echo "Lumen has not cache configuration :)"
     (cd ${WORKDIR})
 
     echo "Running Application..."

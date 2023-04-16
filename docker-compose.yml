@@ -51,6 +51,30 @@ services:
             - gateway
             - delay-network
 
+    #################### delay-scheduler ####################
+    delay-scheduler:
+        build:
+            context: ./
+            dockerfile: ./.docker/Dockerfile-runner
+            args:
+                WORKDIR: /usr/share/nginx/html/delay-php
+        container_name: delay-scheduler
+        restart: unless-stopped
+        tty: true
+        expose:
+            - "9000"
+        environment:
+            TZ: "Asia/Tehran"
+            CONTAINER_ROLE: scheduler
+        volumes:
+            - delay-php-vendor:/usr/share/nginx/html/delay-php/vendor
+            - ./:/usr/share/nginx/html/delay-php
+            - ./.docker/php/delay.ini:/usr/local/etc/php/conf.d/delay.ini
+            - ./config/php/fastcgi.conf:/usr/local/etc/php/conf.d/fastcgi.conf
+        networks:
+            - gateway
+            - delay-network
+
     #################### delay-db ####################
     delay-db:
         image: mariadb:10.11.2-jammy
