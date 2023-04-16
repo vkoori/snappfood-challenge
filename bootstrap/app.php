@@ -100,6 +100,7 @@ $app->register(App\Providers\QueryProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(\Nord\Lumen\Cors\CorsServiceProvider::class);
 $app->register(\Illuminate\Redis\RedisServiceProvider::class);
+$app->register(\Brokenice\LaravelMysqlPartition\PartitionServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
