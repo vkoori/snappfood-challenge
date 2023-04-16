@@ -46,7 +46,7 @@ services:
             - delay-php-vendor:/usr/share/nginx/html/delay-php/vendor
             - ./:/usr/share/nginx/html/delay-php
             - ./.docker/php/delay.ini:/usr/local/etc/php/conf.d/delay.ini
-            - ./config/php/fastcgi.conf:/usr/local/etc/php/conf.d/fastcgi.conf
+            - ./.config/php/fastcgi.conf:/usr/local/etc/php/conf.d/fastcgi.conf
         networks:
             - gateway
             - delay-network
@@ -70,7 +70,7 @@ services:
             - delay-php-vendor:/usr/share/nginx/html/delay-php/vendor
             - ./:/usr/share/nginx/html/delay-php
             - ./.docker/php/delay.ini:/usr/local/etc/php/conf.d/delay.ini
-            - ./config/php/fastcgi.conf:/usr/local/etc/php/conf.d/fastcgi.conf
+            - ./.config/php/fastcgi.conf:/usr/local/etc/php/conf.d/fastcgi.conf
         networks:
             - gateway
             - delay-network
