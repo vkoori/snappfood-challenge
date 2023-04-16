@@ -13,7 +13,8 @@
         "illuminate/redis": "^10.7",
         "laravel/lumen-framework": "^10.0",
         "nordsoftware/lumen-cors": "^3.1.0",
-        "vkoori/identifier-queue": "^1.0"
+        "vkoori/identifier-queue": "^1.0",
+        "vkoori/laravel-mysql-partition": "dev-master"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

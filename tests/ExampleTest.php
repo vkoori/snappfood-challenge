@@ -4,6 +4,7 @@ namespace Tests;
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
+use Illuminate\Support\Carbon;
 
 class ExampleTest extends TestCase
 {
@@ -14,6 +15,7 @@ class ExampleTest extends TestCase
      */
     public function test_that_base_endpoint_returns_a_successful_response()
     {
+        // Carbon::setTestNow(Carbon::now()->addMilliseconds(10000))
         $this->get('/');
 
         $this->assertEquals(
