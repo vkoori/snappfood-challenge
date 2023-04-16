@@ -26,6 +26,7 @@ class SendExtendTimeToUser implements PublisherInterface
 	public function buildHeaders(): array
 	{
 		return [
+			'Accept'			=> 'application/json',
 			'Authorization'		=> 'fake jwt',
 			'X-Request-ID'		=> $this->model->order_id
 		];
