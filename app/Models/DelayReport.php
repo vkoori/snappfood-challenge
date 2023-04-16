@@ -8,12 +8,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Enums\DelayReport\State;
 
 /**
+ * @property int $id
+ * @property int $vendor_id
  * @property int $order_id
  * @property ?int $agent_user_id
  * @property int $user_id
- * @property int $carrier_user_id
+ * @property ?int $carrier_user_id
  * @property ?int $extend_time
  * @property State $state
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  */
 class DelayReport extends Model
 {

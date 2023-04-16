@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('delay_reports', function (Blueprint $table) {
             $table->bigInteger('id');
-            $table->unsignedBigInteger('order_id')->index();
+            $table->unsignedBigInteger('vendor_id')->index();
+            $table->unsignedBigInteger('order_id')->comment('for future reporting');
             $table->unsignedBigInteger('agent_user_id')->nullable()->index();
             $table->unsignedBigInteger('user_id')->comment('for future reporting');
-            $table->unsignedBigInteger('carrier_user_id')->comment('for future reporting');
+            $table->unsignedBigInteger('carrier_user_id')->nullable()->comment('for future reporting');
             $table->unsignedTinyInteger('extend_time')->nullable()->comment('in minute');
             $table->unsignedTinyInteger('state');
             $table->dateTime('created_at')->useCurrent();

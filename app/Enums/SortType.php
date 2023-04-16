@@ -4,9 +4,10 @@ namespace App\Enums;
 
 use App\Utils\EnumContract;
 
-enum TestEnum: int
+enum SortType: string
 {
 	use EnumContract;
 
-	case TEST = 1;
+	case ASC = 'asc';
+	case DESC = 'desc';
 }
