@@ -63,3 +63,7 @@ Any fifo queue drive can be used
 ### Broadcast
 
 After sending the delay report by the user, we immediately send `http response` and also create a `socket.io` connection, until in case of a delay in response or unavailability of other services, they will not cause any problems in the user's experience.
+
+### Responses
+
+All the responses that are sent must follow the same standard in both the origin and destination sides. These principles can be found in the `App\Resources` path.
