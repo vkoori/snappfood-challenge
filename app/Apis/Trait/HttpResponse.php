@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Apis\Order\Trait;
+namespace App\Apis\Trait;
 
 use App\Apis\Exceptions\ApiException;
 

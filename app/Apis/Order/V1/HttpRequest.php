@@ -3,7 +3,7 @@
 namespace App\Apis\Order\V1;
 
 use App\Apis\Enums\HttpMethod;
-use App\Apis\Order\BaseHttpRequest;
+use App\Apis\BaseHttpRequest;
 use App\Apis\Order\BaseOrder;
 use App\Resources\V1\Event\Order\FindOrder;
 use App\Resources\V1\Event\Order\ReceiveOrder;
