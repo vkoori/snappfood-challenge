@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Apis\Order;
+namespace App\Apis;
 
 use App\Apis\Enums\HttpMethod;
 

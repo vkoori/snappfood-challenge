@@ -34,27 +34,27 @@ class CheckOrder implements ShouldQueue
 
         app('db')->transaction(function() use ($expireTime, $event) {
             Carbon::now()->gt($expireTime)
-                ? $this->junkRequest(orderId: $event->delay->order_id)
-                : $this->tripQueue(orderId: $event->delay->order_id);
+                ? $this->junkRequest(delayId: $event->delay->id)
+                : $this->tripQueue(delayId: $event->delay->id, orderId: $event->delay->order_id);
         });
     }
 
-    private function junkRequest(int $orderId): void
+    private function junkRequest(int $delayId): void
     {
-        $res = $this->delayRepo->junkRequest(orderId: $orderId);
+        $res = $this->delayRepo->junkRequest(delayId: $delayId);
         if (!$res) {
             throw new JunkNotModified;
         }
     }
 
-    private function tripQueue(int $orderId): void
+    private function tripQueue(int $delayId, int $orderId): void
     {
-        $res = $this->delayRepo->tripQueue(orderId: $orderId);
+        $res = $this->delayRepo->tripQueue(delayId: $delayId);
         if (!$res) {
             throw new TripNotModified;
         }
 
-        dispatcher(job: new CheckTrip(orderId: $orderId))
+        dispatcher(job: new CheckTrip(orderId: $orderId, delayId: $delayId))
         ->onQueue(queue: Queues::RECEIVE_TRIP_QUEUE->value)
         ->setIdentifier(identifier: $orderId);
     }

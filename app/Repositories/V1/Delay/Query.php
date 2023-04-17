@@ -17,13 +17,24 @@ class Query extends BaseRepository implements Constraint
 		return $this->model->query()->Order($orderId)->Open()->count();
 	}
 
-	public function junkRequest(int $orderId): bool
+	public function junkRequest(int $delayId): bool
 	{
-		return $this->model->query()->Junk($orderId);
+		return $this->model->query()->whereId($delayId)->Junk();
 	}
 
-	public function tripQueue(int $orderId): bool
+	public function tripQueue(int $delayId): bool
 	{
-		return $this->model->query()->Trip($orderId);
+		return $this->model->query()->whereId($delayId)->Trip();
 	}
+
+	public function setNewEstimate(int $delayId, ?int $carrier_id, int $estimate): bool
+	{
+		return $this->model->query()->whereId($delayId)->Estimate($carrier_id, $estimate);
+	}
+
+	public function agentQueue(int $delayId): bool
+	{
+		return $this->model->query()->whereId($delayId)->Agent();
+	}
+
 }

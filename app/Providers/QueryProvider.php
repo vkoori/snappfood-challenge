@@ -25,6 +25,6 @@ class QueryProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(abstract: DelayConstraint::class, concrete: DelayQuery::class);
+        $this->app->singleton(abstract: DelayConstraint::class, concrete: DelayQuery::class);
     }
 }

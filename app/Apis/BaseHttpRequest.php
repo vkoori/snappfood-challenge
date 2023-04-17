@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Apis\Order;
+namespace App\Apis;
 
-use App\Apis\Order\Trait\HttpResponse;
+use App\Apis\Trait\HttpResponse;
 use App\Constraint\PublisherInterface;
 use App\Apis\Enums\HttpMethod;
 use Illuminate\Http\Client\Factory as Http;

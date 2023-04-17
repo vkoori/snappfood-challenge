@@ -1,20 +1,19 @@
 <?php 
 
-namespace App\Apis\Order\V1;
+namespace App\Apis\Trip\V1;
 
 use App\Apis\Enums\HttpMethod;
-use App\Apis\Order\BaseOrder;
+use App\Apis\Trip\BaseTrip;
 use App\Apis\MockHttp;
-use App\Resources\V1\Event\Order\ReceiveOrder;
-use Illuminate\Support\Carbon;
+use App\Resources\V1\Event\Trip\ReceiveTrip;
 
-class MockRequest implements BaseOrder
+class MockRequest implements BaseTrip
 {
 	public function __construct(private HttpRequest $httpRepo)
 	{
 	}
 
-	public function getOrder(int $order_id): ReceiveOrder
+	public function getTrip(int $order_id): ReceiveTrip
 	{
 		$resp = match ($order_id) {
 			1 => $this->orderWhoseDeliveryTimeHasNotArrived(orderId: $order_id),
@@ -33,7 +32,7 @@ class MockRequest implements BaseOrder
 			status: $resp['status']
 		);
 
-		return $this->httpRepo->getOrder(order_id: $order_id);
+		return $this->httpRepo->getTrip(order_id: $order_id);
 	}
 
 	private function orderWhoseDeliveryTimeHasNotArrived(int $orderId)
@@ -43,8 +42,8 @@ class MockRequest implements BaseOrder
 				'X-Request-ID' => $orderId,
 			],
 			'body' => [
-				'delivery_time' => 15,
-				'created_at' => Carbon::now()->toIso8601String(),
+				'carrier_user_id' => null,
+				'state' => ''
 			],
 			'status' => 200
 		];
@@ -57,8 +56,8 @@ class MockRequest implements BaseOrder
 				'X-Request-ID' => $orderId,
 			],
 			'body' => [
-				'delivery_time' => 15,
-				'created_at' => Carbon::now()->subMinutes(20)->toIso8601String(),
+				'carrier_user_id' => 1,
+				'state' => 'PICKED'
 			],
 			'status' => 200
 		];
@@ -71,8 +70,8 @@ class MockRequest implements BaseOrder
 				'X-Request-ID' => $orderId,
 			],
 			'body' => [
-				'delivery_time' => 15,
-				'created_at' => Carbon::now()->subMinutes(20)->toIso8601String(),
+				'carrier_user_id' => 1,
+				'state' => 'DELIVERED'
 			],
 			'status' => 200
 		];
@@ -85,8 +84,8 @@ class MockRequest implements BaseOrder
 				'X-Request-ID' => $orderId,
 			],
 			'body' => [
-				'delivery_time' => 15,
-				'created_at' => Carbon::now()->subMinutes(20)->toIso8601String(),
+				'carrier_user_id' => null,
+				'state' => ''
 			],
 			'status' => 200
 		];

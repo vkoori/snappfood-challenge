@@ -46,17 +46,33 @@ class DelayReport extends Model
         ]);
     }
 
-    public function scopeJunk(Builder $query, int $order_id)
+    public function scopeJunk(Builder $query)
     {
-        return $query->Order($order_id)->update([
+        return $query->update([
             'state' => State::JUNK_REQUEST->value
         ]);
     }
 
-    public function scopeTrip(Builder $query, int $order_id)
+    public function scopeTrip(Builder $query)
     {
-        return $query->Order($order_id)->update([
+        return $query->update([
             'state' => State::RECEIVE_TRIP_QUEUE->value
+        ]);
+    }
+
+    public function scopeEstimate(Builder $query, int $carrier_id, int $estimate)
+    {
+        return $query->update([
+            'state' => State::ESTIMATED->value,
+            'carrier_user_id' => $carrier_id,
+            'extend_time' => $estimate
+        ]);
+    }
+
+    public function scopeAgent(Builder $query)
+    {
+        return $query->update([
+            'state' => State::AGENT_CHECK_QUEUE->value
         ]);
     }
 }
