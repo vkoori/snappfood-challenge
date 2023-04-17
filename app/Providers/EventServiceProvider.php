@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;
 use App\Events\Delay\DelayReported;
-use App\Listeners\Delay\CheckTrips;
+use App\Listeners\Delay\CheckOrder;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -15,7 +15,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         DelayReported::class => [
-            CheckTrips::class,
+            CheckOrder::class,
         ],
     ];
 
