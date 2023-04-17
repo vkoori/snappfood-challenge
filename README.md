@@ -67,3 +67,17 @@ After sending the delay report by the user, we immediately send `http response` 
 ### Responses
 
 All the responses that are sent must follow the same standard in both the origin and destination sides. These principles can be found in the `App\Resources` path.
+
+### Tests
+
+`php vendor\bin\phpunit`
+
+### Get Orders
+
+Requests to receive orders are fake in the following ways:
+
+1. OrderId 1 : An order whose delivery time has not arrived
+2. OrderId 2 : An order whose delivery time has arrived and has trip but has not been delivered
+3. OrderId 3 : An order whose delivery time has arrived and has trip but has been delivered
+4. OrderId 4 : An order whose delivery time has arrived and has not trip
+5. Other OrderIds: timeout
