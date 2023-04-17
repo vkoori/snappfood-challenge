@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\V1\Delay\Constraint as DelayConstraint;
+use App\Repositories\V1\Delay\Query as DelayQuery;
 
 class QueryProvider extends ServiceProvider
 {
@@ -23,6 +25,6 @@ class QueryProvider extends ServiceProvider
      */
     public function register()
     {
-        // $this->app->bind(abstract: InvoiceQueriesContract::class, concrete: InvoiceQueries::class);
+        $this->app->bind(abstract: DelayConstraint::class, concrete: DelayQuery::class);
     }
 }

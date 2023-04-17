@@ -11,9 +11,11 @@ class FormRequest
 	 * @var \Illuminate\Contracts\Validation\Validator
 	 */
 	private $validator;
+    protected Request $request;
 
-	function __construct(protected Request $request)
+	function __construct(public SafeRequest $safeRequest)
 	{
+        $this->request = $safeRequest->request;
 		$this->manualValidator();
 	}
 
@@ -54,7 +56,9 @@ class FormRequest
      */
     public function validated()
     {
-    	return $this->validator->validated();
+        $validated = $this->validator->validated();
+        $this->request->replace($validated);
+    	return $validated;
     }
 
 	private function manualValidator(): void

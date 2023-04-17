@@ -25,10 +25,38 @@ class DelayReport extends Model
 
     protected $table = 'delay_reports';
 
-    protected $fillable = ['order_id', 'agent_user_id', 'user_id', 'carrier_user_id', 'extend_time', 'state'];
+    protected $fillable = ['vendor_id', 'order_id', 'agent_user_id', 'user_id', 'carrier_user_id', 'extend_time', 'state'];
 
     protected $casts = [
         'state' => State::class
     ];
 
+    public function scopeOrder(Builder $query, int $order_id)
+    {
+        return $query->where('order_id', $order_id);
+    }
+
+    public function scopeOpen(Builder $query)
+    {
+        return $query->whereIn('state', [
+            State::RECEIVE_ORDER_QUEUE->value,
+            State::AGENT_CHECK_QUEUE->value,
+            State::CHECKING_AGENT->value,
+            State::RECEIVE_TRIP_QUEUE->value
+        ]);
+    }
+
+    public function scopeJunk(Builder $query, int $order_id)
+    {
+        return $query->Order($order_id)->update([
+            'state' => State::JUNK_REQUEST->value
+        ]);
+    }
+
+    public function scopeTrip(Builder $query, int $order_id)
+    {
+        return $query->Order($order_id)->update([
+            'state' => State::RECEIVE_TRIP_QUEUE->value
+        ]);
+    }
 }
