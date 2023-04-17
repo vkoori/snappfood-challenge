@@ -4,6 +4,7 @@ namespace App\Repositories\V1\Delay;
 
 use App\Constraint\BaseRepository\BaseRepository;
 use App\Models\DelayReport;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface Constraint extends BaseRepository
 {
@@ -15,4 +16,5 @@ interface Constraint extends BaseRepository
 	public function hasCheckingState(int $agentId): bool;
 	public function getCheckingState(int $agentId): ?DelayReport;
 	public function assignToAgent(int $delayId, int $agentId): bool;
+	public function getMostDelayedPastWeek(): LengthAwarePaginator;
 }

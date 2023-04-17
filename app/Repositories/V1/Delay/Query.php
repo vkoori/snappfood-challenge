@@ -4,6 +4,7 @@ namespace App\Repositories\V1\Delay;
 
 use App\Repositories\BaseRepository\BaseRepository;
 use App\Models\DelayReport;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class Query extends BaseRepository implements Constraint
 {
@@ -50,5 +51,10 @@ class Query extends BaseRepository implements Constraint
 	public function assignToAgent(int $delayId, int $agentId): bool
 	{
 		return $this->model->query()->AssignToAgent($delayId, $agentId);
+	}
+
+	public function getMostDelayedPastWeek(): LengthAwarePaginator
+	{
+		return $this->model->query()->MostDelayedPastWeek();
 	}
 }
