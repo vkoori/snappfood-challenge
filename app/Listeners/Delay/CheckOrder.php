@@ -34,8 +34,8 @@ class CheckOrder implements ShouldQueue
 
         app('db')->transaction(function() use ($expireTime, $event) {
             Carbon::now()->gt($expireTime)
-                ? $this->junkRequest(delayId: $event->delay->id)
-                : $this->tripQueue(delayId: $event->delay->id, orderId: $event->delay->order_id);
+                ? $this->tripQueue(delayId: $event->delay->id, orderId: $event->delay->order_id)
+                : $this->junkRequest(delayId: $event->delay->id);
         });
     }
 

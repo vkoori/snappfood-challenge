@@ -60,6 +60,14 @@ To make sure that the next month's partitioning is done, we run the `partition:d
 
 Any fifo queue drive can be used
 
+The list of queues is in the `App\Enums\Queues::class`. It is recommended to run the queues separately.
+Also, the `AGENT_QUEUE` should not be run by cli.
+The command to run the queue is as follows. which I must add in the `satrt.sh` file located in the Docker directory.
+
+```shell
+php artisan queue:work --queue=QUEUE_NAME
+```
+
 ### Broadcast
 
 After sending the delay report by the user, we immediately send `http response` and also create a `socket.io` connection, until in case of a delay in response or unavailability of other services, they will not cause any problems in the user's experience.
