@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Request\V1\Delay\Assign;
 use App\Pipelines\V1\Delay\CheckAlreadyAssigned;
 use App\Pipelines\V1\Delay\ExtractDelayReport;
+use App\Repositories\V1\Delay\Constraint as RepositoriesDelay;
+use App\Resources\V1\Http\Delay\ListView;
 use Illuminate\Pipeline\Pipeline;
 
 class Admin extends Controller
@@ -26,6 +28,14 @@ class Admin extends Controller
 		return $this->response->ok(
 			message: __('utils.success'),
 			data: compact('delay')
+		);
+	}
+
+	public function report(RepositoriesDelay $delayRepo)
+	{
+		return $this->response->ok(
+			message: __('utils.success'),
+			data: new ListView($delayRepo->getMostDelayedPastWeek())
 		);
 	}
 }

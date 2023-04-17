@@ -11,4 +11,9 @@ $router->group(['prefix' => 'delay', 'as' => 'delay'], function() use ($router) 
         'as' => 'assign',
         'uses' => Admin::class.'@assign'
     ]);
+
+    $router->get('/report', [
+        'as' => 'report',
+        'uses' => Admin::class.'@report'
+    ]);
 });

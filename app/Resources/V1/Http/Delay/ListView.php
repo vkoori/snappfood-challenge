@@ -18,9 +18,8 @@ class ListView extends ResourceCollection
     {
         return $this->collection->map(function($item) {
             return [
-                'id'                => $item->id,
                 'vendor_id'         => $item->vendor_id,
-                'extend_times'      => $item->extend_time,
+                'extend_times'      => $item->extend_times,
             ];
         });
     }

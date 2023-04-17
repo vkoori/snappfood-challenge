@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Enums\DelayReport\State;
+use Illuminate\Support\Carbon;
+use Brokenice\LaravelMysqlPartition\Schema\Schema;
+use Brokenice\LaravelMysqlPartition\Models\Partition;
 
 /**
  * @property int $id
@@ -92,5 +95,72 @@ class DelayReport extends Model
             'state' => State::CHECKING_AGENT->value,
             'agent_user_id' => $agentId
         ]);
+    }
+
+    public function scopeMostDelayedPastWeek(Builder $query)
+    {
+        $partitions = [];
+        $partitions[] = $this->getPartitionName(date: Carbon::now());
+
+        $pastMonth = Carbon::now()->subMonth();
+        if ($this->hasPartition($pastMonth)) {
+            $partitions[] = $this->getPartitionName(date: $pastMonth);
+        }
+
+        return $query
+            ->partitions($partitions)
+            ->groupBy('vendor_id')
+            ->selectRaw('sum(extend_time) as extend_times')
+            ->addSelect('vendor_id')
+            ->orderBy('extend_time', 'desc')
+            ->paginate();
+    }
+
+    public function getAllPartitions(): \Illuminate\Support\Collection
+    {
+        $partitions = Schema::getPartitionNames(
+            db: app('db')->connection()->getDatabaseName(), 
+            table: $this->getTable()
+        );
+        return collect($partitions);
+    }
+
+    public function getPartitionName(Carbon $date)
+    {
+        return 'p' . $date->format('Ym');
+    }
+
+    public function savePartition(Carbon $date)
+    {
+        if ($this->getAllPartitions()->first()->PARTITION_NAME) {
+            # eloquent binding has bug :)
+            app('db')->statement(
+                "ALTER TABLE {$this->getTable()} 
+                ADD PARTITION (
+                    PARTITION {$this->getPartitionName(date: $date)} 
+                    VALUES LESS THAN (".$date->format('Y') * 100 + $date->format('m').")
+                );",
+            );
+        } else {
+            Schema::partitionByRange(
+                table: $this->getTable(),
+                column: 'YEAR(created_at) * 100 + MONTH(created_at)',
+                partitions: [
+                    new Partition(
+                        name: $this->getPartitionName(date: $date),
+                        type: Partition::RANGE_TYPE,
+                        value: $date->format('Y') * 100 + $date->format('m')
+                    )
+                ],
+                includeFuturePartition: false
+            );
+        }
+    }
+
+    public function hasPartition(Carbon $date)
+    {
+        return $this->getAllPartitions()->contains(
+            'PARTITION_NAME', $this->getPartitionName(date: $date)
+        );
     }
 }
