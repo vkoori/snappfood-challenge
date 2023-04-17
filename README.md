@@ -72,6 +72,8 @@ php artisan queue:work --queue=QUEUE_NAME
 
 After sending the delay report by the user, we immediately send `http response` and also create a `socket.io` connection, until in case of a delay in response or unavailability of other services, they will not cause any problems in the user's experience.
 
+The `socket.io` is executed with the `laravel-echo-server start` command. Also, the related settings must be add to `Dockerfile-socket` and `docker-compose.json`.
+
 ### Responses
 
 All the responses that are sent must follow the same standard in both the origin and destination sides. These principles can be found in the `App\Resources` path.

@@ -69,10 +69,28 @@ class DelayReport extends Model
         ]);
     }
 
-    public function scopeAgent(Builder $query)
+    public function scopeAgentState(Builder $query)
     {
         return $query->update([
             'state' => State::AGENT_CHECK_QUEUE->value
+        ]);
+    }
+
+    public function scopeAgentUser(Builder $query, int $agent_user_id)
+    {
+        return $query->where('agent_user_id', $agent_user_id);
+    }
+
+    public function scopeChecking(Builder $query)
+    {
+        return $query->where('state', State::CHECKING_AGENT->value);
+    }
+
+    public function scopeAssignToAgent(Builder $query, int $delayId, int $agentId)
+    {
+        return $query->whereId($delayId)->update([
+            'state' => State::CHECKING_AGENT->value,
+            'agent_user_id' => $agentId
         ]);
     }
 }

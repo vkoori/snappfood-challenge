@@ -7,5 +7,6 @@ return [
 	'hasOpenRequest' => 'شمار درخواست باز دارید.',
 	'requestInQueue' => 'درخواست شما در صف پردازش قرار گرفت.',
 	'noUpdated' => 'بروزرسانی انجام نشد.',
+	'alreadyAssignedRequest' => 'سفارشی که در پیلود ارسال شده هنوز بررسی نشده.',
 
 ];

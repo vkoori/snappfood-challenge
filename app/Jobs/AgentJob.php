@@ -8,16 +8,12 @@ class AgentJob extends Job
 {
     private RepositoriesDelay $delayRepo;
 
-    public function __construct(private int $orderId)
+    public function __construct(private int $delayId)
     {
     }
 
-    /**
-     * Rest request can be used here as well. Because admin user experience is not important to me :)
-     * @return void
-     */
     public function handle()
     {
-        
+        return $this->delayRepo->findByIdOrFail(modelId: $this->delayId);        
     }
 }

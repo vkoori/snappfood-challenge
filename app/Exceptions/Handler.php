@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Errors\V1\Delay\AlreadyAssigned;
 use App\Utils\BaseException;
 use App\Utils\Responses\Constraint\JsonResponse;
 use App\Utils\Validations\Exceptions\ValidationError;
@@ -65,7 +66,7 @@ class Handler extends ExceptionHandler
         $error = $this->response->resp(
             statusCode: $error->getStatusCode(),
             message: $this->getMessage($exception),
-            context: !$this->isProduction() && $this->isDebug() ? $this->convertExceptionToArray($exception) : []
+            context: $this->getContext($exception)
         );
 
         $error->exception = $exception;
@@ -89,6 +90,14 @@ class Handler extends ExceptionHandler
                     default => $exception->getMessage(),
                 };
             });
+    }
+
+    private function getContext(Throwable $exception)
+    {
+        return match (true) {
+            $exception instanceof AlreadyAssigned => $exception->getData(),
+            default => !$this->isProduction() && $this->isDebug() ? $this->convertExceptionToArray($exception) : [],
+        };
     }
 
     private function isProduction(): bool
