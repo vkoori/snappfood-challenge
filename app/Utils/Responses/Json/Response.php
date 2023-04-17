@@ -2,7 +2,6 @@
 
 namespace App\Utils\Responses\Json;
 
-use App\Eloquent\Paginator\CustomPaginator;
 use App\Utils\Responses\Constraint\JsonResponse as ConstraintJsonResponse;
 use App\Utils\Responses\Enum\StatusCode;
 use Illuminate\Http\JsonResponse;
@@ -80,7 +79,7 @@ class Response implements ConstraintJsonResponse
         );
     }
 
-    private function initData(array|string|JsonResource|Collection|Model $data=[]): array
+    private function initData(array|string|JsonResource|Collection|Model|null $data=[]): array
     {
         $with = [];
         $additional = [];
@@ -88,7 +87,11 @@ class Response implements ConstraintJsonResponse
 
         if ($data instanceof JsonResource && $data->resource instanceof LengthAwarePaginator) {
             $res = [
-                'paginate' => CustomPaginator::create($data->resource),
+                'paginate' => [
+                    'currentPage' => $data->resource->currentPage(),
+                    'lastPage' => $data->resource->lastPage(),
+                    'total' => $data->resource->total(),
+                ],
                 'data' => $data
             ];
         }

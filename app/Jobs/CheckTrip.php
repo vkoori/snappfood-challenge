@@ -66,7 +66,7 @@ class CheckTrip extends Job
             throw new AgnetStateNotModified;
         }
 
-        dispatcher(job: new AgentJob(orderId: $this->orderId))
+        dispatcher(job: new AgentJob(delayId: $this->delayId))
         ->onQueue(queue: Queues::AGENT_CHECK_QUEUE->value)
         ->setIdentifier(identifier: $this->orderId);
     }

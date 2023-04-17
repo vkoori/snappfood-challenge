@@ -34,7 +34,21 @@ class Query extends BaseRepository implements Constraint
 
 	public function agentQueue(int $delayId): bool
 	{
-		return $this->model->query()->whereId($delayId)->Agent();
+		return $this->model->query()->whereId($delayId)->AgentState();
 	}
 
+	public function hasCheckingState(int $agentId): bool
+	{
+		return $this->model->query()->AgentUser($agentId)->Checking()->count();
+	}
+
+	public function getCheckingState(int $agentId): ?DelayReport
+	{
+		return $this->model->query()->AgentUser($agentId)->Checking()->first();
+	}
+
+	public function assignToAgent(int $delayId, int $agentId): bool
+	{
+		return $this->model->query()->AssignToAgent($delayId, $agentId);
+	}
 }

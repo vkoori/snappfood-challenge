@@ -3,6 +3,7 @@
 namespace App\Repositories\V1\Delay;
 
 use App\Constraint\BaseRepository\BaseRepository;
+use App\Models\DelayReport;
 
 interface Constraint extends BaseRepository
 {
@@ -11,4 +12,7 @@ interface Constraint extends BaseRepository
 	public function tripQueue(int $delayId): bool;
 	public function setNewEstimate(int $delayId, ?int $carrier_id, int $estimate): bool;
 	public function agentQueue(int $delayId): bool;
+	public function hasCheckingState(int $agentId): bool;
+	public function getCheckingState(int $agentId): ?DelayReport;
+	public function assignToAgent(int $delayId, int $agentId): bool;
 }
