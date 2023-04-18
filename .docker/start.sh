@@ -11,10 +11,15 @@ if [ "$role" = "app" ]; then
     echo "Running Application..."
     exec php-fpm
 
-elif [ "$role" = "queue" ]; then
+elif [ "$role" = "order-queue" ]; then
 
-    echo "Running the queue..."
-    (cd ${WORKDIR} && php artisan queue:work)
+    echo "Running the order's queue..."
+    (cd ${WORKDIR} && php artisan queue:work --queue=ORDER_QUEUE)
+
+elif [ "$role" = "trip-queue" ]; then
+
+    echo "Running the trip's queue..."
+    (cd ${WORKDIR} && php artisan queue:work --queue=TRIP_QUEUE)
 
 elif [ "$role" = "scheduler" ]; then
 

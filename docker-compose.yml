@@ -51,6 +51,54 @@ services:
             - gateway
             - delay-network
 
+    #################### delay-order-queue ####################
+    delay-order-queue:
+        build:
+            context: ./
+            dockerfile: ./.docker/Dockerfile-runner
+            args:
+                WORKDIR: /usr/share/nginx/html/delay-php
+        container_name: delay-order-queue
+        restart: unless-stopped
+        tty: true
+        expose:
+            - "9000"
+        environment:
+            TZ: "Asia/Tehran"
+            CONTAINER_ROLE: order-queue
+        volumes:
+            - delay-php-vendor:/usr/share/nginx/html/delay-php/vendor
+            - ./:/usr/share/nginx/html/delay-php
+            - ./.docker/php/delay.ini:/usr/local/etc/php/conf.d/delay.ini
+            - ./.config/php/fastcgi.conf:/usr/local/etc/php/conf.d/fastcgi.conf
+        networks:
+            - gateway
+            - delay-network
+
+    #################### delay-trip-queue ####################
+    delay-trip-queue:
+        build:
+            context: ./
+            dockerfile: ./.docker/Dockerfile-runner
+            args:
+                WORKDIR: /usr/share/nginx/html/delay-php
+        container_name: delay-trip-queue
+        restart: unless-stopped
+        tty: true
+        expose:
+            - "9000"
+        environment:
+            TZ: "Asia/Tehran"
+            CONTAINER_ROLE: trip-queue
+        volumes:
+            - delay-php-vendor:/usr/share/nginx/html/delay-php/vendor
+            - ./:/usr/share/nginx/html/delay-php
+            - ./.docker/php/delay.ini:/usr/local/etc/php/conf.d/delay.ini
+            - ./.config/php/fastcgi.conf:/usr/local/etc/php/conf.d/fastcgi.conf
+        networks:
+            - gateway
+            - delay-network
+
     #################### delay-scheduler ####################
     delay-scheduler:
         build:
@@ -114,6 +162,33 @@ services:
             - delay-redis:/data
         networks:
             - delay-network
+
+    #################### delay-echo-server ####################
+    delay-echo-server:
+        image: oanhnn/laravel-echo-server:latest
+        container_name: delay-echo-server
+        depends_on:
+            - delay-redis
+        restart: unless-stopped
+        environment:
+            LARAVEL_ECHO_SERVER_AUTH_HOST: http://snappfood.local
+            LARAVEL_ECHO_SERVER_DEBUG: "true"
+            LARAVEL_ECHO_SERVER_DB: redis
+            REDIS_HOST: redis
+            REDIS_PORT: 6379
+            REDIS_PREFIX: ""
+            REDIS_DB: 0
+            TZ: "Asia/Tehran"
+        ports:
+            - 6001:6001
+        networks:
+            - delay-network
+        healthcheck:
+            test: node /usr/local/src/healthcheck.js
+            start_period: 5s
+            interval: 3s
+            timeout: 3s
+            retries: 10
 
 # Networks
 networks:
