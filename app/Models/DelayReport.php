@@ -102,9 +102,9 @@ class DelayReport extends Model
         $partitions = [];
         $partitions[] = $this->getPartitionName(date: Carbon::now());
 
-        $pastMonth = Carbon::now()->subMonth();
-        if ($this->hasPartition($pastMonth)) {
-            $partitions[] = $this->getPartitionName(date: $pastMonth);
+        $nexttMonth = Carbon::now()->addMonth();
+        if ($this->hasPartition($nexttMonth)) {
+            $partitions[] = $this->getPartitionName(date: $nexttMonth);
         }
 
         return $query
