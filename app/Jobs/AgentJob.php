@@ -14,6 +14,14 @@ class AgentJob extends Job
 
     public function handle()
     {
-        return $this->delayRepo->findByIdOrFail(modelId: $this->delayId);        
+        $this->delayRepo = app(RepositoriesDelay::class);
+        $delay = $this->getDelay();
+
+        return $delay;
+    }
+
+    private function getDelay()
+    {
+        return $this->delayRepo->findByIdOrFail(modelId: $this->delayId);
     }
 }
