@@ -17,6 +17,8 @@ class AgentJob extends Job
         $this->delayRepo = app(RepositoriesDelay::class);
         $delay = $this->getDelay();
 
+        request()->attributes->add(['delay' => $delay]);
+
         return $delay;
     }
 
