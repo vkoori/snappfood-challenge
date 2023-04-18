@@ -19,9 +19,9 @@ class Meta implements MetaInterface
 	public static function list(): array
 	{
 		return [
-			'state' => State::casesWithTranslate(),
-			'sort_by' => SortBy::values(),
-			'sort_type' => SortType::values(),
+			// 'state' => State::casesWithTranslate(),
+			// 'sort_by' => SortBy::values(),
+			// 'sort_type' => SortType::values(),
 		];
 	}
 }
