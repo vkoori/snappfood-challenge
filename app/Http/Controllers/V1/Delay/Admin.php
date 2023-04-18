@@ -4,11 +4,13 @@ namespace App\Http\Controllers\V1\Delay;
 
 use App\Http\Controllers\Controller;
 use App\Http\Request\V1\Delay\Assign;
+use App\Pipelines\V1\Delay\AssignToAgent;
 use App\Pipelines\V1\Delay\CheckAlreadyAssigned;
 use App\Pipelines\V1\Delay\ExtractDelayReport;
 use App\Repositories\V1\Delay\Constraint as RepositoriesDelay;
 use App\Resources\V1\Http\Delay\ListView;
 use Illuminate\Pipeline\Pipeline;
+use App\Resources\V1\Event\Delay\SendReportToAgent;
 
 class Admin extends Controller
 {
@@ -16,7 +18,7 @@ class Admin extends Controller
 	{
 		$request->validated();
 
-		$delay = app(Pipeline::class)
+		$safeRequest = app(Pipeline::class)
 		->send(passable: $request->safeRequest)
 		->through(pipes: [
 			CheckAlreadyAssigned::class,
@@ -25,9 +27,12 @@ class Admin extends Controller
 		])
 		->thenReturn();
 
+		$agentResponse = new SendReportToAgent;
+		$agentResponse->setReport($safeRequest->delay);
+
 		return $this->response->ok(
 			message: __('utils.success'),
-			data: compact('delay')
+			data: $agentResponse->buildPayload()
 		);
 	}
 
